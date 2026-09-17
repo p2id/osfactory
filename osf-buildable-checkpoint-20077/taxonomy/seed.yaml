@@ -1,0 +1,29 @@
+schema_version: 1.0.0
+domains:
+  - id: productivity
+    label: Productivity
+  - id: local_first
+    label: Local-first software
+software_types:
+  - id: web_application
+    label: Web Application
+  - id: cli
+    label: CLI
+architectures:
+  - id: architecture.local_first
+    label: Local-first
+deployment_models:
+  - id: browser
+    label: Browser
+complexity:
+  - id: C0
+    label: Trivial
+  - id: C1
+    label: Very Small
+  - id: C2
+    label: Small
+novelty:
+  - id: N0
+    label: Conventional
+  - id: N1
+    label: Variation

@@ -1,0 +1,15 @@
+{
+  "status": "stopped_at_checkpoint",
+  "target": 100000,
+  "accepted_records": 20077,
+  "next_ordinal": 53391,
+  "rejected_candidates": 11282,
+  "schema_errors": 0,
+  "dataset": "datasets/buildable-pilot-100000/projects.jsonl",
+  "index": "indexes/buildable-pilot-100000.sqlite",
+  "public_release_audit": "PASS",
+  "personal_data_matches": 0,
+  "ai_reference_matches": 0,
+  "resume_supported": true,
+  "next_targets": [100000, 1000000]
+}

@@ -1,0 +1,14 @@
+{
+  "architectures": [
+    {"id": "architecture.local_first", "name": "Local-first", "description": "The user can work locally and synchronize changes when connectivity is available."},
+    {"id": "architecture.modular_monolith", "name": "Modular monolith", "description": "A single deployable application with explicit internal module boundaries."}
+  ],
+  "technologies": [
+    {"id": "language.typescript", "name": "TypeScript", "kind": "language"},
+    {"id": "storage.indexeddb", "name": "IndexedDB", "kind": "storage"},
+    {"id": "protocol.sync", "name": "Synchronization protocol", "kind": "protocol"}
+  ],
+  "families": [
+    {"id": "family.structured_notes", "name": "Structured note systems", "description": "Projects for capturing and managing structured notes across workflows."}
+  ]
+}

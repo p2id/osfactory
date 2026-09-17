@@ -1,0 +1,12 @@
+{
+  "dataset": "datasets/buildable-pilot-100000/projects.jsonl",
+  "records": 20077,
+  "unique_ids": 20077,
+  "unique_problem_statements": 17171,
+  "unique_solution_summaries": 20077,
+  "sha256": "ce89cd5a8e2bacd6589721998e97ef320214189a82e9084da89d8dd5f6584e7c",
+  "personal_data_matches": 0,
+  "ai_reference_matches": 0,
+  "issues": [],
+  "status": "PASS"
+}
