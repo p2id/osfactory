@@ -17,6 +17,12 @@ class PipelineTests(unittest.TestCase):
         project = json.loads((ROOT / "representative_project.json").read_text())
         self.assertEqual(ProjectValidator(ROOT / "project.schema.json").validate(project), [])
 
+    def test_normalization_preserves_unicode_and_canonical_equivalence(self):
+        self.assertEqual(UniquenessGate._normalize("CAFÉ 東京 العربية"), "café 東京 العربية")
+        self.assertEqual(UniquenessGate._normalize("cafe\u0301"), "café")
+        self.assertNotEqual(UniquenessGate._normalize("café"), UniquenessGate._normalize("cafe"))
+        self.assertEqual(UniquenessGate._normalize("module 123"), "module #")
+
     def test_duplicate_detection(self):
         project = json.loads((ROOT / "representative_project.json").read_text())
         dedupe = ExactDeduplicator()
