@@ -37,7 +37,7 @@ def normalize_text(value: str) -> str:
         else " "
         for char in value
     )
-    return re.sub(r"\\s+", " ", normalized).strip()
+    return re.sub(r"\s+", " ", normalized).strip()
 
 
 def project_fingerprint(project: dict[str, Any]) -> str:
