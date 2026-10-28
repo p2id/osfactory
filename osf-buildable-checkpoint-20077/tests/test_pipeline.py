@@ -25,12 +25,12 @@ class PipelineTests(unittest.TestCase):
 
     def test_exact_fingerprint_preserves_unicode_and_canonical_equivalence(self):
         self.assertEqual(normalize_text("CAFÉ 東京 العربية"), "café 東京 العربية")
-        self.assertEqual(normalize_text("cafe\\u0301"), "café")
+        self.assertEqual(normalize_text("cafe\u0301"), "café")
         self.assertNotEqual(normalize_text("café"), normalize_text("cafe"))
 
         latin = {"identity": {"title": "Café"}, "problem": {}, "solution": {}}
         plain = {"identity": {"title": "Cafe"}, "problem": {}, "solution": {}}
-        decomposed = {"identity": {"title": "Cafe\\u0301"}, "problem": {}, "solution": {}}
+        decomposed = {"identity": {"title": "Cafe\u0301"}, "problem": {}, "solution": {}}
         self.assertNotEqual(project_fingerprint(latin), project_fingerprint(plain))
         self.assertEqual(project_fingerprint(latin), project_fingerprint(decomposed))
 
