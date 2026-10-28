@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 import sqlite3
+import unicodedata
 from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -29,7 +30,14 @@ def slugify(value: str) -> str:
 
 
 def normalize_text(value: str) -> str:
-    return re.sub(r"[^a-z0-9]+", " ", value.lower()).strip()
+    value = unicodedata.normalize("NFKC", value).casefold()
+    normalized = "".join(
+        char
+        if char.isalnum() or unicodedata.category(char).startswith("M")
+        else " "
+        for char in value
+    )
+    return re.sub(r"\s+", " ", normalized).strip()
 
 
 def project_fingerprint(project: dict[str, Any]) -> str:

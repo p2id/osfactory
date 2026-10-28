@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from osf_factory.core import ExactDeduplicator, ProjectValidator
+from osf_factory.core import ExactDeduplicator, ProjectValidator, normalize_text, project_fingerprint
 from osf_factory.pipeline import FixtureProvider, ProductionController
 from osf_factory.buildable_provider import BuildableCatalogProvider
 from osf_factory.pipeline import UniquenessGate
@@ -16,6 +16,23 @@ class PipelineTests(unittest.TestCase):
     def test_schema_fixture_validates(self):
         project = json.loads((ROOT / "representative_project.json").read_text())
         self.assertEqual(ProjectValidator(ROOT / "project.schema.json").validate(project), [])
+
+    def test_normalization_preserves_unicode_and_canonical_equivalence(self):
+        self.assertEqual(UniquenessGate._normalize("CAFÉ 東京 العربية"), "café 東京 العربية")
+        self.assertEqual(UniquenessGate._normalize("cafe\u0301"), "café")
+        self.assertNotEqual(UniquenessGate._normalize("café"), UniquenessGate._normalize("cafe"))
+        self.assertEqual(UniquenessGate._normalize("module 123"), "module #")
+
+    def test_exact_fingerprint_preserves_unicode_and_canonical_equivalence(self):
+        self.assertEqual(normalize_text("CAFÉ 東京 العربية"), "café 東京 العربية")
+        self.assertEqual(normalize_text("cafe\u0301"), "café")
+        self.assertNotEqual(normalize_text("café"), normalize_text("cafe"))
+
+        latin = {"identity": {"title": "Café"}, "problem": {}, "solution": {}}
+        plain = {"identity": {"title": "Cafe"}, "problem": {}, "solution": {}}
+        decomposed = {"identity": {"title": "Cafe\u0301"}, "problem": {}, "solution": {}}
+        self.assertNotEqual(project_fingerprint(latin), project_fingerprint(plain))
+        self.assertEqual(project_fingerprint(latin), project_fingerprint(decomposed))
 
     def test_duplicate_detection(self):
         project = json.loads((ROOT / "representative_project.json").read_text())

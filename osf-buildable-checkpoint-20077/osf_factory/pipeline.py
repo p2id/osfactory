@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import re
+import unicodedata
 from pathlib import Path
 from typing import Any
 
@@ -20,8 +21,15 @@ class UniquenessGate:
 
     @staticmethod
     def _normalize(value: str) -> str:
-        value = re.sub(r"\b\d+\b", "#", value.lower())
-        return re.sub(r"[^a-z0-9#]+", " ", value).strip()
+        value = unicodedata.normalize("NFKC", value).casefold()
+        value = re.sub(r"\b\d+\b", "#", value)
+        normalized = "".join(
+            char
+            if char.isalnum() or char == "#" or unicodedata.category(char).startswith("M")
+            else " "
+            for char in value
+        )
+        return re.sub(r"\s+", " ", normalized).strip()
 
     def _fields(self, project: dict[str, Any]) -> tuple[str, str, str, str, str]:
         identity = project.get("identity", {})
